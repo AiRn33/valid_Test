@@ -21,5 +21,6 @@ public class UserDto{
     @Min(value = 5000, message = "금액은 5000원이상이여야 합니다") // 5000원 보다 같거나, 크면 통과
     private long Amt;
 
+    //123
 
 }

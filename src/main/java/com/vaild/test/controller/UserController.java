@@ -18,6 +18,7 @@ public class UserController {
     @PostMapping(value = "/user")
     public String insertUser(@RequestBody @Valid UserDto userDto){
         log.info("@ param : {}", userDto);
+
         return "success";
     }
 }

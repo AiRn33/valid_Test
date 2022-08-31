@@ -17,15 +17,17 @@ public class ExceptionController {
     /**
      * @valid  유효성체크에 통과하지 못하면  MethodArgumentNotValidException 이 발생한다.
      */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> methodValidException(MethodArgumentNotValidException e, HttpServletRequest request){
 
-        log.warn("MethodArgumentNotValidException 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> methodValidException(MethodArgumentNotValidException e){
+
         ErrorResponse errorResponse = makeErrorResponse(e.getBindingResult());
+
         return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     private ErrorResponse makeErrorResponse(BindingResult bindingResult){
+
         String code = "";
         String description = "";
         String detail = "";
@@ -38,7 +40,14 @@ public class ExceptionController {
             //DTO에 유효성체크를 걸어놓은 어노테이션명을 가져온다.
             String bindResultCode = bindingResult.getFieldError().getCode();
 
+            // 반복문을 통해서 배열 or List 형식으로 데이터를 출력하면 문제없이 사용 할 수 있을꺼 같다
+            System.out.println("----------------");
+            System.out.println(bindingResult.getAllErrors().get(0));
+            System.out.println(bindingResult.getAllErrors().get(1));
+            System.out.println("------------------");
+
             switch (bindResultCode){
+
                 case "NotNull":
                     code = ErrorCode.NOT_NULL.getCode();
                     description = ErrorCode.NOT_NULL.getMessage();
